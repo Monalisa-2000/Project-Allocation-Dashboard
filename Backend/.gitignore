@@ -1,0 +1,5 @@
+**/bin/
+**/obj/
+projectallocation.db
+ProjectAllocation.API/appsettings.Development.json
+!ProjectAllocation.slnx

@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="ProjectAllocation.API/ProjectAllocation.API.csproj" />
+  <Project Path="ProjectAllocation.Application/ProjectAllocation.Application.csproj" />
+  <Project Path="ProjectAllocation.Domain/ProjectAllocation.Domain.csproj" />
+  <Project Path="ProjectAllocation.Infrastructure/ProjectAllocation.Infrastructure.csproj" />
+  <Project Path="ProjectAllocation.Tests/ProjectAllocation.Tests.csproj" />
+</Solution>
