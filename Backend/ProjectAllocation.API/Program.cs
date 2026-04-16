@@ -1,4 +1,5 @@
 using System.Text;
+using System.Collections.Generic;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -15,17 +16,7 @@ using ProjectAllocation.Domain.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<AppDbContext>(options =>
-{
-    if (builder.Environment.IsDevelopment())
-    {
-        options.UseSqlite("Data Source=projectallocation.db");
-    }
-    else
-    {
-        options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-    }
-});
+builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlite("Data Source=projectallocation.db"));
 
 builder.Services.AddIdentity<User, IdentityRole<Guid>>(options =>
 {
@@ -121,11 +112,24 @@ builder.Services.AddScoped<IAllocationRepository, AllocationRepository>();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
-        policy.WithOrigins(
-                "http://localhost:5173",
-                "http://localhost:8080")
+    {
+        var frontendUrl = builder.Configuration["FRONTEND_URL"];
+        var origins = new List<string>
+        {
+            "http://localhost:5173",
+            "http://localhost:8080"
+        };
+
+        // Allow a deployed frontend URL from Render (if provided).
+        if (!string.IsNullOrWhiteSpace(frontendUrl))
+        {
+            origins.Add(frontendUrl);
+        }
+
+        policy.WithOrigins(origins.ToArray())
             .AllowAnyHeader()
-            .AllowAnyMethod());
+            .AllowAnyMethod();
+    });
 });
 
 var app = builder.Build();
