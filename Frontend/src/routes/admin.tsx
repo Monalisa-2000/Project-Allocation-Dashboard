@@ -2,7 +2,7 @@ import { createFileRoute, Outlet, Link, useNavigate, useLocation } from '@tansta
 import { useAuth } from '@/lib/auth';
 import { LayoutDashboard, FolderOpen, Users, ClipboardList, LogOut, Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 export const Route = createFileRoute('/admin')({
   component: AdminLayout,
@@ -21,12 +21,12 @@ function AdminLayout() {
   const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  const shouldRedirectToLogin = !isAuthenticated || user?.role !== 'Admin';
-  useEffect(() => {
-    if (shouldRedirectToLogin) navigate({ to: '/login' });
-  }, [navigate, shouldRedirectToLogin]);
-
-  if (shouldRedirectToLogin) return null;
+  if (!isAuthenticated || user?.role !== 'Admin') {
+    if (typeof window !== 'undefined') {
+      navigate({ to: '/login' });
+    }
+    return null;
+  }
 
   const handleLogout = () => {
     logout();

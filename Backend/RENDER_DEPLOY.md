@@ -1,26 +1,20 @@
-# Deploy Backend to Render (Docker)
+## Deploy ProjectAllocation.API to Render (Docker)
 
-## 1. Prepare the Dockerfile
-This project already includes `Backend/Dockerfile` configured to:
-- Build and publish `ProjectAllocation.API` in Release mode (multi-stage build)
-- Run on port `8080`
-- Bind ASP.NET Core to `http://+:8080`
+### 1) Push your code
+1. Commit and push the backend changes to your Git provider (GitHub/GitLab/etc.).
+2. Ensure your repository root contains the `Backend/` folder with the `Dockerfile` inside it.
 
-## 2. Create a Render Web Service
-1. Log in to Render.
-2. Go to **New +** -> **Web Service**.
-3. Choose **Blueprint: Docker** (Runtime = Docker).
-4. Set the following:
-   - **Root Directory**: `Backend`
-   - **Runtime**: `Docker`
-   - **Port**: `8080`
-5. Use the default build settings (Render will use the `Backend/Dockerfile`).
-6. Click **Create Web Service**.
+### 2) Create a Render Web Service
+1. In the Render dashboard, click **New +** → **Web Service**.
+2. Set **Root Directory** to `Backend`.
+3. Set **Runtime** to `Docker`.
+4. Set **Port** to `8080`.
+5. Finish creating the service.
 
-## 3. Set Environment Variables in Render
-After creating the service (or before starting the first deploy), set these environment variables in the Render dashboard:
+### 3) Configure environment variables
+In the Render service settings → **Environment** (or **Environment Variables**), set:
 
-| Environment Variable | Value |
+| Variable | Value |
 |---|---|
 | `ASPNETCORE_ENVIRONMENT` | `Production` |
 | `Jwt__Secret` | `<strong secret>` |
@@ -28,13 +22,9 @@ After creating the service (or before starting the first deploy), set these envi
 | `Jwt__Audience` | `ProjectAllocationClient` |
 | `FRONTEND_URL` | `<your deployed frontend URL>` |
 
-## 4. Deploy and Verify
-1. Trigger a new deploy (or redeploy) from the service page.
-2. Check the service logs in Render to confirm the app starts successfully.
-3. Validate endpoints from your frontend domain listed in `FRONTEND_URL`.
+Notes:
+- `Jwt__Secret` corresponds to `Jwt:Secret` in `Program.cs` / `appsettings.json` (Render converts `:` to `__` automatically).
+- `FRONTEND_URL` should include the full origin (scheme + host, e.g. `https://your-domain.com` or `https://your-domain.com:443` as applicable) because CORS `WithOrigins(...)` requires exact origins.
 
-## 5. Important Note about SQLite
-This backend uses SQLite (`projectallocation.db`) and the container filesystem is ephemeral. That means:
-- Data (including seeded/created data) can reset on each deploy/restart.
-- You will lose changes if Render redeploys the service.
-
+### 4) SQLite persistence warning
+This project uses SQLite (`projectallocation.db`) and, on Render, the container filesystem is typically ephemeral. That means the SQLite data will reset on each deploy/rebuild.
