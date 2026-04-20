@@ -71,24 +71,7 @@ Backend/
   ProjectAllocation.Tests/         # Unit tests
 ```
 
----
 
-## Environment Variables
-
-**Frontend** (`.env`):
-```
-VITE_API_BASE_URL=http://localhost:5001/api
-```
-
-**Backend** (set on deployment platform):
-```
-Jwt__Secret=<min 32 character secret>
-Jwt__Issuer=ProjectAllocationAPI
-Jwt__Audience=ProjectAllocationClient
-FRONTEND_URL=<your frontend URL>
-```
-
----
 
 ## Assumptions
 
