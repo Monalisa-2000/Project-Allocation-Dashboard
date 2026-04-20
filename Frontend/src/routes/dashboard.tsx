@@ -1,4 +1,5 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
+import { useEffect } from 'react';
 import { useAuth } from '@/lib/auth';
 import { useMyAllocations, useCompleteAllocation } from '@/hooks/useAllocations';
 import { ProjectCard } from '@/components/ProjectCard';
@@ -17,10 +18,13 @@ function UserDashboard() {
   const { data: allocations = [], isLoading } = useMyAllocations();
   const completeMutation = useCompleteAllocation();
 
-  if (!isAuthenticated || user?.role !== 'User') {
-    if (typeof window !== 'undefined') {
+  useEffect(() => {
+    if (!isAuthenticated || user?.role !== 'User') {
       navigate({ to: '/login' });
     }
+  }, [isAuthenticated, user, navigate]);
+
+  if (!isAuthenticated || user?.role !== 'User') {
     return null;
   }
 
@@ -58,7 +62,7 @@ function UserDashboard() {
               <Inbox className="h-10 w-10 text-muted-foreground" />
             </div>
             <h2 className="text-lg font-semibold text-foreground">No projects assigned yet</h2>
-            <p className="text-sm text-muted-foreground mt-1">When an admin assigns projects to you, they'll appear here.</p>
+            <p className="text-sm text-muted-foreground mt-1">When an admin assigns projects to you, they will appear here.</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">

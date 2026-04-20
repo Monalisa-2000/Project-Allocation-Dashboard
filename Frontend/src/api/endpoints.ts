@@ -4,6 +4,8 @@ import type { AuthResponse, Project, User, Allocation } from '@/types/models';
 export const authApi = {
   login: (email: string, password: string) =>
     axiosClient.post<AuthResponse>('/Auth/login', { email, password }).then(r => r.data),
+  register: (data: { name: string; email: string; password: string; role: string }) =>
+    axiosClient.post<AuthResponse>('/Auth/register', data).then(r => r.data),
 };
 
 export const projectsApi = {

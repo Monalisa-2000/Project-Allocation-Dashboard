@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from '@tanstack/react-router';
+import { createFileRoute, useNavigate, Link } from '@tanstack/react-router';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -47,7 +47,7 @@ function LoginPage() {
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <Card className="w-full max-w-md shadow-lg">
         <CardHeader className="text-center pb-2">
-          <CardTitle className="text-2xl font-bold text-foreground">Project Allocation Dashboard</CardTitle>
+          <CardTitle className="text-2xl font-bold text-foreground">Allocation Dashboard</CardTitle>
           <p className="text-sm text-muted-foreground mt-1">Sign in to your account</p>
         </CardHeader>
         <CardContent>
@@ -67,10 +67,16 @@ function LoginPage() {
               Sign In
             </Button>
           </form>
+          <p className="mt-4 text-center text-sm text-muted-foreground">
+            Don't have an account?{' '}
+            <Link to="/register" className="font-medium text-primary hover:underline">
+              Sign up
+            </Link>
+          </p>
           <div className="mt-6 rounded-lg border bg-muted/50 p-4 text-xs text-muted-foreground space-y-1">
             <p className="font-medium text-foreground text-sm mb-2">Demo Accounts</p>
-            <p><span className="font-medium">Admin:</span> alice@app.com / Admin@123</p>
-            <p><span className="font-medium">User:</span> bob@app.com / User@123</p>
+            <p><span className="font-medium">Admin:</span> monalisa@app.com / Admin@123</p>
+            <p><span className="font-medium">User:</span> sooraj@app.com / User@123</p>
           </div>
         </CardContent>
       </Card>

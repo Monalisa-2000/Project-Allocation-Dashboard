@@ -1,8 +1,9 @@
 import { createFileRoute, Outlet, Link, useNavigate, useLocation } from '@tanstack/react-router';
+import { useState, useEffect } from 'react';
 import { useAuth } from '@/lib/auth';
 import { LayoutDashboard, FolderOpen, Users, ClipboardList, LogOut, Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useState } from 'react';
+
 
 export const Route = createFileRoute('/admin')({
   component: AdminLayout,
@@ -21,12 +22,15 @@ function AdminLayout() {
   const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
 
+  useEffect(() => {
   if (!isAuthenticated || user?.role !== 'Admin') {
-    if (typeof window !== 'undefined') {
-      navigate({ to: '/login' });
-    }
-    return null;
+    navigate({ to: '/login' });
   }
+}, [isAuthenticated, user, navigate]);
+
+if (!isAuthenticated || user?.role !== 'Admin') {
+  return null;
+}
 
   const handleLogout = () => {
     logout();
@@ -44,7 +48,7 @@ function AdminLayout() {
       <aside className={`fixed inset-y-0 left-0 z-50 w-60 border-r bg-card flex flex-col transition-transform lg:translate-x-0 ${mobileOpen ? 'translate-x-0' : '-translate-x-full'}`}>
         <div className="flex h-14 items-center gap-2 border-b px-6">
           <FolderOpen className="h-5 w-5 text-primary" />
-          <span className="font-semibold text-foreground">PAD Admin</span>
+          <span className="font-semibold text-foreground">Allocation Dashboard</span>
           <button className="ml-auto lg:hidden" onClick={() => setMobileOpen(false)}>
             <X className="h-5 w-5" />
           </button>

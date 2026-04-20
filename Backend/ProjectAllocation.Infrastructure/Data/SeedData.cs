@@ -28,10 +28,10 @@ public static class SeedData
 
         var usersToSeed = new[]
         {
-            new { Name = "Alice Admin", Email = "alice@app.com", Role = UserRole.Admin, Password = "Admin@123" },
-            new { Name = "Bob Johnson", Email = "bob@app.com", Role = UserRole.User, Password = "User@123" },
-            new { Name = "Carol Williams", Email = "carol@app.com", Role = UserRole.User, Password = "User@123" },
-            new { Name = "David Brown", Email = "david@app.com", Role = UserRole.User, Password = "User@123" }
+            new { Name = "Monalisa Khanda", Email = "monalisa@app.com", Role = UserRole.Admin, Password = "Admin@123" },
+            new { Name = "Sooraj Singh",    Email = "sooraj@app.com",   Role = UserRole.User,  Password = "User@123"  },
+            new { Name = "Priya Patel",     Email = "priya@app.com",    Role = UserRole.User,  Password = "User@123"  },
+            new { Name = "Arjun Mehta",     Email = "arjun@app.com",    Role = UserRole.User,  Password = "User@123"  },
         };
 
         foreach (var seedUser in usersToSeed)
@@ -62,8 +62,8 @@ public static class SeedData
 
         if (!await dbContext.Projects.AnyAsync())
         {
-            var alice = await userManager.FindByEmailAsync("alice@app.com")
-                ?? throw new InvalidOperationException("Alice Admin was not seeded.");
+            var alice = await userManager.FindByEmailAsync("monalisa@app.com")
+                ?? throw new InvalidOperationException("Monalisa Khanda was not seeded.");
 
             var projects = new[]
             {

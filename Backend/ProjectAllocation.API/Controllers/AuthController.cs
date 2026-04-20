@@ -50,7 +50,12 @@ public class AuthController : ControllerBase
         }
 
         await _userManager.AddToRoleAsync(user, role.ToString());
-        return CreatedAtAction(nameof(Me), _mapper.Map<UserDto>(user));
+        var token = _jwtService.GenerateToken(user);
+        return StatusCode(StatusCodes.Status201Created, new LoginResponse
+        {
+            Token = token,
+            User = _mapper.Map<UserDto>(user)
+        });
     }
 
     [HttpPost("login")]
